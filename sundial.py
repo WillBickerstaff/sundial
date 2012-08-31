@@ -21,7 +21,7 @@ with open(dictfile, 'r') as file:
         if (len(w) >= minlen and letters[0] in w and "'" not in w):
             dictwords.add(w)
 
-for i in range(minlen, len(letters) + 1): 
+for i in range(minlen, len(letters) + 1):
     s = dictwords & set(''.join(l) for l in permutations(letters, i))
     match = match | s
 
@@ -45,6 +45,3 @@ ostr = ostr[:-1] + '\n(%d)\n%s\n%d Words' % (count, '-' * width, len(match))
 
 T = TextWrapper(replace_whitespace=False, width=width)
 for line in T.wrap(ostr): print line
-
-    
-                    
