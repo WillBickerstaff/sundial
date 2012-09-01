@@ -118,7 +118,7 @@ class Dictionary(object):
             pass
         msg = 'No dictionary file'
         if filename is not None:
-            msg = '%s is not a dictionary file' % filename
+            msg = '%s does not exist' % filename
         raise IOError(msg)
 
     def osDictFile(self):
