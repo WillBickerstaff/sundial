@@ -1,7 +1,7 @@
 import sys
 import tkFileDialog
 import tkMessageBox
-from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, TOP)
+from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN)
 from lib.gui.results import ResultPane
 from lib.wordmatch import Match
 
@@ -13,11 +13,14 @@ class Application(Frame):
     def __init__(self, master=None):
         Frame.__init__(self, master, padx=3, pady=3)
         self.params = self.__createWidgets()
-        self.params.pack(side=TOP, anchor=W)
+        self.params.grid(row=0, column=0, sticky=W)
         self.__res_pane = Frame()
+        self.__res_pane.grid(row=1, column=0, sticky=E + W)
+        self.__status = Label(anchor=W, relief=SUNKEN)
+        self.__status.grid(row=2, column=0, sticky=E + W)
 
     def __createWidgets(self):
-        params = Frame(padx=5, pady=3)
+        params = Frame(padx=5, pady=5)
         Label(text='Letters: ', anchor=E).grid(row=0, column=0,
                                                sticky=E, in_=params)
         self.__char_entry = Entry(width=10)
@@ -35,8 +38,12 @@ class Application(Frame):
         self.__go_button.grid(row=1, column=3, sticky=E, in_=params)
         return params
 
+    def status(self, text):
+        self.__status.config(text=text)
+        self.__status.update_idletasks()
+
     def __findWords(self):
-        self.__res_pane.pack_forget()
+        self.__res_pane.grid_forget()
         chars = self.__char_entry.get()
         minlen = int(self.__word_length_ctrl.get())
         if len(chars) < minlen:
@@ -46,7 +53,7 @@ You must give at least as many letters as the minimum required word length''')
             return
         res = self.__getres(minlen, chars)
         self.__res_pane = ResultPane(res)
-        self.__res_pane.pack(side=TOP)
+        self.__res_pane.grid(row=1, column=0, sticky=E + W)
 
     def __getres(self, minlen, chars):
         firstpass = True
@@ -55,10 +62,12 @@ You must give at least as many letters as the minimum required word length''')
             try:
                 matchobj = None
                 if firstpass:
-                    matchobj = Match(minlen=minlen, chars=chars)
+                    matchobj = Match(minlen=minlen, chars=chars,
+                                      statushandler=self.status)
                     firstpass = False
                 else:
-                    matchobj = Match(minlen=minlen, chars=chars, dict=dfile)
+                    matchobj = Match(minlen=minlen, chars=chars, dict=dfile,
+                                     statushandler=self.status)
                 res = matchobj.wordMatch()
                 return res
             except IOError:

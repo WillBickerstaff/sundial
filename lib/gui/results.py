@@ -34,7 +34,7 @@ class ResultPane(Frame):
                 res = ResultList()
                 res.fill(rlist)
                 res.lbl.config(text='%d Letters' % wordlen)
-                res.grid(row=0, column=col, in_=self)
+                res.grid(row=0, column=col, in_=self, sticky=N + E + W)
                 res.width(wordlen)
                 lbl.grid(row=1, column=col, in_=self)
                 col += 1
@@ -58,29 +58,23 @@ class ResultList(Frame):
 
     def __createWidgets(self):
         self.lbl = Label(text='')
-        self.lbl.grid(row=1, column=0, in_=self)
+        self.lbl.grid(row=1, column=0, columnspan=2, in_=self)
         self.__hide_button = Button(text='Hide', command=self.hide)
-        self.__hide_button.grid(row=0, column=0, in_=self)
-        self.__xScroll = Scrollbar(orient=HORIZONTAL)
+        self.__hide_button.grid(row=0, column=0, columnspan=2, in_=self)
         self.__yScroll = Scrollbar(orient=VERTICAL)
-        self.list = Listbox(xscrollcommand=self.__xScroll.set,
-                            yscrollcommand=self.__yScroll.set,
+        self.list = Listbox(yscrollcommand=self.__yScroll.set,
                             selectmode=SINGLE)
-        self.__xScroll.config(command=self.list.xview)
         self.__yScroll.config(command=self.list.yview)
 
     def show(self):
         self.__hide_button.config(text='Hide', command=self.hide)
         self.list.grid(row=2, column=0, columnspan=2,
                         sticky=N + S + E + W, in_=self)
-        self.__xScroll.grid(row=3, column=0, columnspan=2,
-                            sticky=N + E + W, in_=self)
         self.__yScroll.grid(row=2, column=2, sticky=W + N + S, in_=self)
 
     def hide(self):
         self.__hide_button.config(text='Show', command=self.show)
         self.list.grid_forget()
-        self.__xScroll.grid_forget()
         self.__yScroll.grid_forget()
 
     def clear(self):

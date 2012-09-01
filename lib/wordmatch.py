@@ -1,7 +1,30 @@
 import os
 import sys
+import time
 from itertools import permutations
 #tncimgeop
+
+#functions to compute n!
+def fact(n):
+    """Computes n!, input n"""
+    if n == 0:
+        return 1
+    else:
+        p = 1
+        while n != 1:
+            p *= n
+            n = n - 1
+        return p
+
+
+#function to compute nPr
+def perm(n, r):
+    """computes nPr, input n,r"""
+    b = (n - r)
+    a = fact(n)
+    b = fact(b)
+    c = a // b
+    return c
 
 
 class Match(object):
@@ -11,7 +34,14 @@ class Match(object):
         self.dict = None
         self.minlen = 4
         self.match = set()
+        self.__statusHandler = None
         self.parse_kwargs(**kwargs)
+        self.__nperms = 0
+        self.__calcnPermutations()
+
+    def __calcnPermutations(self):
+        for i in range(self.minlen, len(self.chars) + 1):
+            self.__nperms += perm(len(self.chars), i)
 
     def parse_kwargs(self, ** kwargs):
         for k in kwargs:
@@ -25,19 +55,31 @@ class Match(object):
             if kw in ['chars', 'letters']:
                 self.chars = kwargs[k]
                 continue
+            if kw == 'statushandler':
+                self.__statusHandler = kwargs[k]
+                continue
+
+    def status(self, text):
+        if self.__statusHandler is not None:
+            self.__statusHandler(text)
 
     def wordMatch(self):
+        stime = time.time()
         match = set()
         dic = Dictionary(self.dict)
         dic.req_seq = [self.chars[0]]
         dic.omit_seq = ["'"]
         dictwords = dic.words()
-
+        msg = 'Checking %d permutations of characters %s' % (self.__nperms,
+                                                             self.chars)
+        self.status(msg)
         for i in range(self.minlen, len(self.chars) + 1):
             s = dictwords & set(''.join(l)
                                     for l in permutations(self.chars, i))
             match = match | s
-
+        etime = time.time()
+        msg = 'Completed in {0:.3f}s'.format(etime - stime)
+        self.status(msg)
         return sorted(match, key=lambda x: len(x))
 
     def words_of_length(self, words, length):
