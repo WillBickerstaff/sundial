@@ -4,6 +4,7 @@ import tkMessageBox
 from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN,
                      Menu)
 from lib.gui.results import ResultPane
+from lib.gui.about import AboutDialog
 from lib.wordmatch import Match
 
 
@@ -59,15 +60,7 @@ class Application(Frame):
             self.dictionaryfile = '/usr/share/dict/words'
 
     def __about(self):
-        tkMessageBox.showinfo('About',
-u'''
-SunDial Solver
-
-Copyright \u00a92012 Will Bickerstaff
-<will.bickerstaff@gmail.com>
-
-License: The MIT License (MIT)
-''')
+        AboutDialog(self)
 
     def status(self, text):
         self.__status.config(text=text)
