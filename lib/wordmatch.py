@@ -4,6 +4,7 @@ import time
 from itertools import permutations
 #tncimgeop
 
+
 #functions to compute n!
 def fact(n):
     """Computes n!, input n"""

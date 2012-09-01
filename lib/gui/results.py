@@ -4,7 +4,7 @@ Created on 27 Aug 2012
 @author: will
 '''
 from Tkinter import (Frame, Listbox, Scrollbar, Button, Label, N, S, E, W,
-                     VERTICAL, HORIZONTAL, SINGLE, END)
+                     VERTICAL, SINGLE, END)
 
 
 class ResultPane(Frame):

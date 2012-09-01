@@ -1,5 +1,4 @@
 import sys
-import os
 import tkFileDialog
 import tkMessageBox
 from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN,
