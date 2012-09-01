@@ -18,6 +18,7 @@ class Application(Frame):
         self.menubar = Menu()
         self.__createWidgets()
         self.menubar.add_cascade(label='Options', menu=self.__Options)
+        self.menubar.add_command(label='About', command=self.__about)
         self.__params.grid(row=0, column=0, sticky=W)
         self.__res_pane = Frame()
         self.__res_pane.grid(row=2, column=0, sticky=E + W)
@@ -57,6 +58,17 @@ class Application(Frame):
     def osDictFile(self):
         if 'linux' in sys.platform:
             self.dictionaryfile = '/usr/share/dict/words'
+
+    def __about(self):
+        tkMessageBox.showinfo('About',
+u'''
+SunDial Solver
+
+Copyright \u00a92012 Will Bickerstaff
+<will.bickerstaff@gmail.com>
+
+License: The MIT License (MIT)
+''')
 
     def status(self, text):
         self.__status.config(text=text)
