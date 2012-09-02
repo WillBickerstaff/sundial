@@ -31,6 +31,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
+
 class AboutDialog(Dialog):
 
     def body(self, master):
@@ -45,7 +46,6 @@ class AboutDialog(Dialog):
                                                                 sticky=E + W)
         lictxt = Label(master, text=license_text, anchor=W)
         lictxt.grid(row=4, column=0, sticky=N + S + E + W)
-
 
     def buttonbox(self):
         box = Frame(self)

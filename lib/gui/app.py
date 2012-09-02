@@ -25,6 +25,8 @@ class Application(Frame):
         self.__status = Label(anchor=W, relief=SUNKEN)
         self.__status.grid(row=3, column=0, sticky=E + W)
         self.osDictFile()
+        if self.dictionaryfile is None:
+            self.status('No dictionary defined!')
         master.config(menu=self.menubar)
 
     def __createWidgets(self):
@@ -52,6 +54,7 @@ class Application(Frame):
     def __choosedict(self):
         try:
             self.dictionaryfile = tkFileDialog.askopenfile(mode='r').name
+            self.status('')
         except AttributeError:
             pass
 
