@@ -35,7 +35,7 @@ class ResultPane(Frame):
                 res.fill(rlist)
                 res.lbl.config(text='%d Letters' % wordlen)
                 res.grid(row=0, column=col, in_=self, sticky=N + E + W)
-                res.width(wordlen)
+                res.width(wordlen + 1)
                 lbl.grid(row=1, column=col, in_=self)
                 col += 1
         Label(text='%d Words' % len(self.resultlist)).grid(row=2, column=0,
