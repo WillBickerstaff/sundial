@@ -34,11 +34,12 @@ class Application(Frame):
         Label(text='Letters: ', anchor=E).grid(row=0, column=0,
                                                sticky=E, in_=self.__params)
         self.__char_entry = Entry(width=10)
+        Label(text='First letter appears in every result ', anchor=W).grid(
+            row=0, column=3, sticky=E, in_=self.__params)
         self.__char_entry.grid(row=0, column=1, columnspan=2,
                                sticky=W, in_=self.__params)
-        Label(text='Minimum length word: ', anchor=E).grid(row=1, column=0,
-                                                           sticky=E,
-                                                           in_=self.__params)
+        Label(text='Minimum length of result words: ', anchor=E).grid(
+            row=1, column=0, sticky=E, in_=self.__params)
         self.__word_length_ctrl = Spinbox(from_=1, to=Application.MAXWORDLEN,
                                           width=2)
         self.__word_length_ctrl.delete(0, END)
