@@ -6,6 +6,7 @@ from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN,
 from lib.gui.results import ResultPane
 from lib.gui.about import AboutDialog
 from lib.wordmatch import Match
+from tkFileDialog import asksaveasfilename
 
 
 class Application(Frame):
@@ -17,6 +18,7 @@ class Application(Frame):
         self.dictionaryfile = None
         self.menubar = Menu()
         self.__createWidgets()
+        self.menubar.add_cascade(label='File', menu=self.__File)
         self.menubar.add_cascade(label='Options', menu=self.__Options)
         self.menubar.add_command(label='About', command=self.__about)
         self.__params.grid(row=0, column=0, sticky=W)
@@ -51,6 +53,8 @@ class Application(Frame):
         self.__Options = Menu()
         self.__Options.add_command(label='Choose dictionary',
                                            command=self.__choosedict)
+        self.__File = Menu()
+        self.__File.add_command(label='Export', command=self.__export)
 
     def __choosedict(self):
         try:
@@ -106,3 +110,9 @@ You must give at least as many letters as the minimum required word length''')
                     self.__choosedict()
                 else:
                     sys.exit()
+
+    def __export(self):
+        f = tkFileDialog.asksaveasfilename()
+        if not f: return
+        
+        print f
