@@ -27,6 +27,7 @@ class Application(Frame):
         self.__status = Label(anchor=W, relief=SUNKEN)
         self.__status.grid(row=3, column=0, sticky=E + W)
         self.osDictFile()
+        self.words = None
         if self.dictionaryfile is None:
             self.status('No dictionary defined!')
         master.config(menu=self.menubar)
@@ -83,8 +84,8 @@ class Application(Frame):
                         message='''Not enough letters given\n
 You must give at least as many letters as the minimum required word length''')
             return
-        res = self.__getres(minlen, chars)
-        self.__res_pane = ResultPane(res)
+        self.words = self.__getres(minlen, chars)
+        self.__res_pane = ResultPane(self.words)
         self.__res_pane.grid(row=2, column=0, sticky=E + W)
 
     def __getres(self, minlen, chars):
