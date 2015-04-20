@@ -46,7 +46,10 @@ class Doc(object):
         
     def __setHeadingStyle(self):
         HdgStyle = Style(name="Heading", family='paragraph', parentstylename="Standard")
-        HdgStyle.addElement(TextProperties(fontweight='bold'))
+        HdgStyle.addElement(TextProperties(
+                            fontweight='bold',
+                            fontfamily='FreeSans',
+                            fontsize='120%'))
         self.__doc.styles.addElement(HdgStyle)
         
         ''' Heading 1 '''
@@ -63,7 +66,7 @@ class Doc(object):
         DefaultStyle = Style(name="Standard", family='paragraph')
         DefaultStyle.addElement(TextProperties(
             fontfamily='FreeSans', 
-            fontsize='12pt'))
+            fontsize='10pt'))
         DefaultStyle.addElement(ParagraphProperties(
             margintop='0.423cm',
             marginbottom='0.212cm'))

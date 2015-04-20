@@ -56,7 +56,7 @@ class Application(Frame):
         self.__Options.add_command(label='Choose dictionary',
                                            command=self.__choosedict)
         self.__File = Menu()
-        self.__File.add_command(label='Export', command=self.__export)
+        self.__File.add_command(label='Export as ODT (Open document text)', command=self.__export)
 
     def __choosedict(self):
         try:
