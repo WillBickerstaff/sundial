@@ -7,8 +7,10 @@ A solver for the sundial word problem typically encountered in the Sun(UK) Newsp
  
 ## What you need ##
 Written in python, so you won't get far without that python 2.x
-pytk is need for the gui
-and odfpy to export the results as an odt document
+
+- pytk is need for the gui
+- odfpy to export the results as an odt document
+
 both can be install with pip install
 
 ## Caveats ##
