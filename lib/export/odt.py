@@ -29,15 +29,12 @@ class Doc(object):
         initlen = len(wordlist[0])
         lastlen = len(wordlist[-1])
         splitlist = []
-        for i in range(initlen, lastlen):
+        for i in range(initlen, lastlen+1):
             curlist = []
             for x in wordlist:
                 if len(x) == i: curlist.append(x)
             splitlist.append(curlist)
-        print splitlist
-        return splitlist
-            
-        
+        return splitlist        
     
     def __createStyles(self):
         self.__addFonts
