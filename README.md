@@ -4,6 +4,12 @@ sundial
 A solver for the sundial word problem typically encountered in the Sun(UK) Newspaper
 
  - You must provide the letter that is required to appear in every word as the first character in the Letters entry field. 
+ 
+## What you need ##
+Written in python, so you won't get far without that python 2.x
+pytk is need for the gui
+and odfpy to export the results as an odt document
+both can be install with pip install
 
 ## Caveats ##
  - Only ever run on Linuxx, you'll definately need to provide an alternative dictionary file on Windows systems
