@@ -121,4 +121,3 @@ You must give at least as many letters as the minimum required word length''')
         if not f: return
         outfile = Doc(self.matchobj)
         outfile.write(f)
-        print f

@@ -14,6 +14,8 @@ class Doc(object):
         HdgTxt = '{0:d} words, Solved \'{1:s}\' in {2:.3f} seconds'.format(
             len(matchobj.match), matchobj.chars.upper(), matchobj.completeTime)
         self.__doc.text.addElement(H(outlinelevel = 1, text=HdgTxt))
+        txt=P(text='Check the results, some may be acronyms, names or slang terms.')
+        self.__doc.text.addElement(txt)
  
     def __wordHeading(self, wordlist):
         return '{0:d} - {1:d} Letter words'.format(len(wordlist), len(wordlist[0]))
@@ -24,6 +26,8 @@ class Doc(object):
             self.__doc.text.addElement(H(outlinelevel = 2, 
                                          text=self.__wordHeading(wordlist)))
             self.__doc.text.addElement(P(text=', '.join(word for word in wordlist)))
+            
+        self.__doc.text.addElement(P(text='\n\nhttps://github.com/WillBickerstaff/sundial'))
     
     def __splitbylength(self, wordlist):
         initlen = len(wordlist[0])
@@ -70,8 +74,8 @@ class Doc(object):
         self.__doc.styles.addElement(DefaultStyle)
         
         ''' Text Body '''
-        txtBody = Style(name='text_20_body', family='paragraph', parentstylename='Standard')
-        self.__doc.styles.addElement(txtBody)
+        txt = Style(name='text_20_body', family='paragraph', parentstylename='Standard')
+        self.__doc.styles.addElement(txt)
         
     def __addFonts(self):
         self.__doc.fontfacedecls.addElement((FontFace(
