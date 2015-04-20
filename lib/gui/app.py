@@ -3,6 +3,7 @@ import tkFileDialog
 import tkMessageBox
 from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN,
                      Menu)
+from os.path import expanduser
 from lib.gui.results import ResultPane
 from lib.gui.about import AboutDialog
 from lib.wordmatch import Match
@@ -114,7 +115,9 @@ You must give at least as many letters as the minimum required word length''')
                     sys.exit()
 
     def __export(self):
-        f = tkFileDialog.asksaveasfilename()
+        f = tkFileDialog.asksaveasfilename(defaultextension='.odt', 
+                                           initialdir=expanduser('~'),
+                                           initialfile=self.__char_entry.get())
         if not f: return
         outfile = Doc(self.matchobj)
         outfile.write(f)

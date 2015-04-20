@@ -60,7 +60,7 @@ class Doc(object):
         ''' Heading 2 '''
         HdgStyle = Style(name='Heading_20_2', family='paragraph', parentstylename='Heading')
         HdgStyle.addElement(TextProperties(fontsize='110%', color='#808080'))
-        self.__doc.styles.addElement(HdgStyle)
+        self.__doc.styles.addElement(HdgStyle)        
         
     def __setDefaultStyle(self):
         DefaultStyle = Style(name="Standard", family='paragraph')
