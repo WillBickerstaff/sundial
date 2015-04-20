@@ -39,6 +39,7 @@ class Match(object):
         self.parse_kwargs(**kwargs)
         self.__nperms = 0
         self.__calcnPermutations()
+        self.completeTime = None
 
     def __calcnPermutations(self):
         for i in range(self.minlen, len(self.chars) + 1):
@@ -79,9 +80,12 @@ class Match(object):
                                     for l in permutations(self.chars, i))
             match = match | s
         etime = time.time()
-        msg = 'Completed in {0:.3f}s'.format(etime - stime)
+
+        self.completeTime = (etime - stime)
+        msg = 'Completed in {0:.3f}s'.format(self.completeTime)
         self.status(msg)
-        return sorted(match, key=lambda x: len(x))
+        self.match = sorted(match, key=lambda x: len(x))
+        return self.match
 
     def words_of_length(self, words, length):
         return sorted([x for x in words if len(x) == length])

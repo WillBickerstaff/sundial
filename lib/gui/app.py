@@ -6,6 +6,7 @@ from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN,
 from lib.gui.results import ResultPane
 from lib.gui.about import AboutDialog
 from lib.wordmatch import Match
+from lib.export.odt import Doc
 from tkFileDialog import asksaveasfilename
 
 
@@ -27,7 +28,7 @@ class Application(Frame):
         self.__status = Label(anchor=W, relief=SUNKEN)
         self.__status.grid(row=3, column=0, sticky=E + W)
         self.osDictFile()
-        self.words = None
+        self.matchobj = None
         if self.dictionaryfile is None:
             self.status('No dictionary defined!')
         master.config(menu=self.menubar)
@@ -84,24 +85,24 @@ class Application(Frame):
                         message='''Not enough letters given\n
 You must give at least as many letters as the minimum required word length''')
             return
-        self.words = self.__getres(minlen, chars)
-        self.__res_pane = ResultPane(self.words)
+        res = self.__getres(minlen, chars)
+        self.__res_pane = ResultPane(res)
         self.__res_pane.grid(row=2, column=0, sticky=E + W)
 
     def __getres(self, minlen, chars):
         firstpass = True
         while True:
             try:
-                matchobj = None
+                self.matchobj = None
                 if firstpass and self.dictionaryfile is None:
-                    matchobj = Match(minlen=minlen, chars=chars,
+                    self.matchobj = Match(minlen=minlen, chars=chars,
                                       statushandler=self.status)
                     firstpass = False
                 else:
-                    matchobj = Match(minlen=minlen, chars=chars,
+                    self.matchobj = Match(minlen=minlen, chars=chars,
                                      dict=self.dictionaryfile,
                                      statushandler=self.status)
-                res = matchobj.wordMatch()
+                res = self.matchobj.wordMatch()
                 return res
             except IOError:
                 ans = tkMessageBox.askyesno(title='No Dictionary',
@@ -115,5 +116,6 @@ You must give at least as many letters as the minimum required word length''')
     def __export(self):
         f = tkFileDialog.asksaveasfilename()
         if not f: return
-        
+        outfile = Doc(self.matchobj)
+        outfile.write(f)
         print f
