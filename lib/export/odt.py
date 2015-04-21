@@ -25,7 +25,7 @@ class Doc(object):
         for wordlist in splitList:
             self.__doc.text.addElement(H(outlinelevel = 2, 
                                          text=self.__wordHeading(wordlist)))
-            self.__doc.text.addElement(P(text=', '.join(word for word in wordlist)))
+            self.__doc.text.addElement(P(text=', '.join(word.capitalize() for word in wordlist)))
             
         self.__doc.text.addElement(P(text='\n\nhttps://github.com/WillBickerstaff/sundial'))
     
@@ -37,7 +37,7 @@ class Doc(object):
             curlist = []
             for x in wordlist:
                 if len(x) == i: curlist.append(x)
-            splitlist.append(curlist)
+            splitlist.append(sorted(curlist))
         return splitlist        
     
     def __createStyles(self):
