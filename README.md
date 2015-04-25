@@ -1,7 +1,7 @@
 sundial
 =======
 
-A solver for the sundial word problem typically encountered in the Sun(UK) Newspaper
+A solver for the sundial problem typically encountered in the Sun(UK) Newspaper and conundrums
 
  - You must provide the letter that is required to appear in every word as the first character in the Letters entry field. 
  
