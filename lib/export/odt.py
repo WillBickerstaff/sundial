@@ -1,6 +1,7 @@
 from odf.opendocument import OpenDocumentText
 from odf.style import Style, TextProperties, ParagraphProperties, FontFace
 from odf.text import H, P
+from lib.export.wordManip import splitbylength
 
 class Doc(object):
 
@@ -21,24 +22,13 @@ class Doc(object):
         return '{0:d} - {1:d} Letter words'.format(len(wordlist), len(wordlist[0]))
 
     def __createContent(self, words):
-        splitList = self.__splitbylength(words.match)
+        splitList = splitbylength(words.match)
         for wordlist in splitList:
             self.__doc.text.addElement(H(outlinelevel = 2,
                                          text=self.__wordHeading(wordlist)))
-            self.__doc.text.addElement(P(text=', '.join(word.capitalize() for word in wordlist)))
+            self.__doc.text.addElement(P(text=', '.join(word for word in wordlist)))
 
         self.__doc.text.addElement(P(text='\n\nhttps://github.com/WillBickerstaff/sundial'))
-
-    def __splitbylength(self, wordlist):
-        initlen = len(wordlist[0])
-        lastlen = len(wordlist[-1])
-        splitlist = []
-        for i in range(initlen, lastlen+1):
-            curlist = []
-            for x in wordlist:
-                if len(x) == i: curlist.append(x)
-            splitlist.append(sorted(curlist))
-        return splitlist
 
     def __createStyles(self):
         self.__addFonts
@@ -86,6 +76,4 @@ class Doc(object):
                 fontfamilygeneric="modern", fontpitch="fixed")))
 
     def write(self, filename):
-        print(filename)
-        print (type(self.__doc))
         self.__doc.save(filename)

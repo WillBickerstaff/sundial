@@ -58,6 +58,8 @@ class Application(Frame):
                                            command=self.__choosedict)
         self.__File = Menu()
         self.__File.add_command(label='Export as ODT (Open document text)', command=self.__export)
+        self.__char_entry.focus_set()
+        self.__char_entry.bind("<Return>", self.__keyPressEnter)
 
     def __choosedict(self):
         try:
@@ -114,10 +116,18 @@ You must give at least as many letters as the minimum required word length''')
                 else:
                     sys.exit()
 
+    def __keyPressEnter(self, event):
+        self.__findWords()
+
     def __export(self):
-        f = asksaveasfilename(defaultextension='.odt',
-                                           initialdir=expanduser('~'),
-                                           initialfile=self.__char_entry.get())
-        if not f: return
+        options= {}
+        options['defaultextension'] = '.odt'
+        options['filetypes'] = [('all files', '.*'),
+                                ('Open Document Text', '.odt')]
+        options['initialdir'] = expanduser('~')
+        options['initialfile'] = self.__char_entry.get()
+        f = asksaveasfilename(**options)
+
         outfile = Doc(self.matchobj)
+
         outfile.write(unicode(f, "utf-8"))
