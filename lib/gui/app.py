@@ -115,9 +115,9 @@ You must give at least as many letters as the minimum required word length''')
                     sys.exit()
 
     def __export(self):
-        f = tkFileDialog.asksaveasfilename(defaultextension='.odt', 
+        f = asksaveasfilename(defaultextension='.odt',
                                            initialdir=expanduser('~'),
                                            initialfile=self.__char_entry.get())
         if not f: return
         outfile = Doc(self.matchobj)
-        outfile.write(f)
+        outfile.write(unicode(f, "utf-8"))
