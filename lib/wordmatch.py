@@ -33,14 +33,15 @@ class Match(object):
     def __init__(self, **kwargs):
         self.chars = ''
         self.dict = None
-        self.minlen = 4
+        self.minlen = 3
         self.match = set()
         self.__statusHandler = None
+        self.mand1st=None        
         self.parse_kwargs(**kwargs)
         self.__nperms = 0
         self.__calcnPermutations()
         self.completeTime = None
-
+        
     def __calcnPermutations(self):
         for i in range(self.minlen, len(self.chars) + 1):
             self.__nperms += perm(len(self.chars), i)
@@ -60,6 +61,9 @@ class Match(object):
             if kw == 'statushandler':
                 self.__statusHandler = kwargs[k]
                 continue
+            if kw == 'mand1st':
+                self.mand1st = kwargs[k]
+                continue
 
     def status(self, text):
         if self.__statusHandler is not None:
@@ -69,8 +73,9 @@ class Match(object):
         stime = time.time()
         match = set()
         dic = Dictionary(self.dict)
-        dic.req_seq = [self.chars[0]]
         dic.omit_seq = ["'"]
+        if self.mand1st:
+            dic.req_seq = [self.chars[0]]
         dictwords = dic.words()
         msg = 'Checking %d permutations of characters %s' % (self.__nperms,
                                                              self.chars)
@@ -79,9 +84,8 @@ class Match(object):
             s = dictwords & set(''.join(l)
                                     for l in permutations(self.chars, i))
             match = match | s
-        etime = time.time()
 
-        self.completeTime = (etime - stime)
+        self.completeTime = (time.time() - stime)
         msg = 'Completed in {0:.3f}s'.format(self.completeTime)
         self.status(msg)
         self.match = sorted(match, key=lambda x: len(x))

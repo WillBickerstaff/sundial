@@ -2,7 +2,7 @@ import sys
 import tkFileDialog
 import tkMessageBox
 from Tkinter import (Frame, Spinbox, Entry, Label, Button, E, W, END, SUNKEN,
-                     Menu)
+                     Menu, Checkbutton)
 from os.path import expanduser
 from lib.gui.results import ResultPane
 from lib.gui.about import AboutDialog
@@ -13,7 +13,8 @@ from tkFileDialog import asksaveasfilename
 
 class Application(Frame):
     MAXWORDLEN = 20
-    DEFAULTWORDLEN = 4
+    DEFAULTWORDLEN = 3
+    MANDATORY1stCHAR=0
 
     def __init__(self, master=None):
         Frame.__init__(self, master, padx=3, pady=3)
@@ -39,10 +40,12 @@ class Application(Frame):
         Label(text='Letters: ', anchor=E).grid(row=0, column=0,
                                                sticky=E, in_=self.__params)
         self.__char_entry = Entry(width=10)
+        self.__chk1st = Checkbutton(variable=self.MANDATORY1stCHAR, command=self.__CB)
         Label(text='First letter appears in every result ', anchor=W).grid(
-            row=0, column=3, sticky=E, in_=self.__params)
+            row=0, column=4, sticky=E, in_=self.__params)
         self.__char_entry.grid(row=0, column=1, columnspan=2,
                                sticky=W, in_=self.__params)
+        self.__chk1st.grid(row=0, column=3, sticky=W, in_=self.__params)
         Label(text='Minimum length of result words: ', anchor=E).grid(
             row=1, column=0, sticky=E, in_=self.__params)
         self.__word_length_ctrl = Spinbox(from_=1, to=Application.MAXWORDLEN,
@@ -60,6 +63,9 @@ class Application(Frame):
         self.__File.add_command(label='Export as ODT (Open document text)', command=self.__export)
         self.__char_entry.focus_set()
         self.__char_entry.bind("<Return>", self.__keyPressEnter)
+
+    def __CB(self):
+        self.MANDATORY1stCHAR = not self.MANDATORY1stCHAR
 
     def __choosedict(self):
         try:
@@ -99,12 +105,12 @@ You must give at least as many letters as the minimum required word length''')
                 self.matchobj = None
                 if firstpass and self.dictionaryfile is None:
                     self.matchobj = Match(minlen=minlen, chars=chars,
-                                      statushandler=self.status)
+                                      statushandler=self.status, mand1st=self.MANDATORY1stCHAR)
                     firstpass = False
                 else:
                     self.matchobj = Match(minlen=minlen, chars=chars,
                                      dict=self.dictionaryfile,
-                                     statushandler=self.status)
+                                     statushandler=self.status, mand1st=self.MANDATORY1stCHAR)
                 res = self.matchobj.wordMatch()
                 return res
             except IOError:
